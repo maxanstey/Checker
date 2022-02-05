@@ -16,6 +16,9 @@ class Checker
      */
     public function isPalindrome(string $word): bool
     {
+        echo "Testing\n";
+
+        return true;
     }
 
     /**
