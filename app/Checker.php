@@ -16,8 +16,6 @@ class Checker
      */
     public function isPalindrome(string $word): bool
     {
-        echo "Testing\n";
-
         return true;
     }
 
@@ -28,6 +26,7 @@ class Checker
      */
     public function isAnagram(string $word, string $comparison): bool
     {
+        return true;
     }
 
     /**
@@ -36,5 +35,6 @@ class Checker
      */
     public function isPangram(string $phrase): bool
     {
+        return true;
     }
 }
