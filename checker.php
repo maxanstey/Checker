@@ -113,7 +113,7 @@ $command->setCode(
             $messages = $compareStrings($inputValue, $stringToCompare, $mode, $checker);
         }
 
-        // Output messages in order stated by the specification
+        // Output messages in order stated by the specification.
         // This prevents any output in the instance of validation errors.
         foreach ($messages as $message) {
             $output->writeln($message);
