@@ -26,7 +26,23 @@ class Checker
      */
     public function isAnagram(string $word, string $comparison): bool
     {
-        return true;
+        $lettersFromWord = str_split($word);
+        $lettersFromComparison = str_split($comparison);
+
+        foreach ($lettersFromWord as $index => $letter) {
+            $comparisonLetterIndex = array_search($letter, $lettersFromComparison, true);
+
+            if (false === $comparisonLetterIndex) {
+                continue;
+            }
+
+            unset(
+                $lettersFromWord[$index],
+                $lettersFromComparison[$comparisonLetterIndex]
+            );
+        }
+
+        return 0 === count($lettersFromWord) && 0 === count($lettersFromComparison);
     }
 
     /**

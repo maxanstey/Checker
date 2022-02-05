@@ -16,9 +16,12 @@ $checkStrings = static function (
     OutputInterface $output
 ): void {
     $stringToCheck = $input->getArgument('string');
+    $trimmedStringToCheck = str_replace(' ', '', $stringToCheck);
 
-    if (false === ctype_alnum($stringToCheck)) {
-        $output->writeln('The string passed for checking must contain only alphanumeric characters.');
+    if (false === ctype_alnum($trimmedStringToCheck)) {
+        $output->writeln(
+            'The string passed for checking must contain only alphanumeric characters and/or spaces.'
+        );
 
         exit(Command::FAILURE);
     }
@@ -26,22 +29,57 @@ $checkStrings = static function (
     $checker = new Checker();
 
     if (true === $checker->isPalindrome($stringToCheck)) {
-        $output->writeln("$stringToCheck is a palindrome.");
+        $output->writeln(
+            sprintf(
+                '"%s" is a palindrome.',
+                $trimmedStringToCheck
+            )
+        );
     } else {
-        $output->writeln("$stringToCheck is not a palindrome.");
+        $output->writeln(
+            sprintf(
+                '"%s" is not a palindrome.',
+                $trimmedStringToCheck
+            )
+        );
     }
+
+    $stringToCompare = $input->getArgument('comparison');
+    $trimmedStringToCompare = str_replace(' ', '', $stringToCompare);
 
     // TODO: add comparison argument
-    if (true === $checker->isAnagram($stringToCheck, 'comparison')) {
-        $output->writeln("$stringToCheck is an anagram.");
+    if (true === $checker->isAnagram($stringToCheck, $trimmedStringToCompare)) {
+        $output->writeln(
+            sprintf(
+                '"%s" is an anagram of "%s".',
+                $stringToCheck,
+                $stringToCompare
+            )
+        );
     } else {
-        $output->writeln("$stringToCheck is not a anagram.");
+        $output->writeln(
+            sprintf(
+                '"%s" is not an anagram of "%s".',
+                $stringToCheck,
+                $stringToCompare
+            )
+        );
     }
 
-    if (true === $checker->isPangram($stringToCheck)) {
-        $output->writeln("$stringToCheck is a pangram.");
+    if (true === $checker->isPangram($trimmedStringToCheck)) {
+        $output->writeln(
+            sprintf(
+                '"%s" is a pangram.',
+                $stringToCheck
+            )
+        );
     } else {
-        $output->writeln("$stringToCheck is not a pangram.");
+        $output->writeln(
+            sprintf(
+                '"%s" is not a pangram.',
+                $stringToCheck
+            )
+        );
     }
 
     exit(Command::SUCCESS);
@@ -54,7 +92,11 @@ $command->setName('Checker')->setVersion('1.0.0');
 $command->addArgument(
     'string',
     InputArgument::REQUIRED,
-    'The string to perform the check against.'
+    'The initial string to perform the check against.'
+)->addArgument(
+    'comparison',
+    InputArgument::REQUIRED,
+    'The comparison string to check whether the initial string is an anagram of it.'
 );
 
 try {
