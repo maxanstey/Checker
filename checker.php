@@ -103,14 +103,12 @@ $command->setCode(
             $contents = @file_get_contents($inputValue);
 
             if ($contents === false) {
-                $output->writeln(
+                throw new Exception(
                     sprintf(
                         'The file "%s" provided is invalid.',
                         $inputValue
                     )
                 );
-
-                exit(Command::INVALID);
             }
 
             $messages = [];

@@ -509,7 +509,7 @@ class TestChecker extends KernelTestCase
     ];
 
     /**
-     * @see https://www.rd.com/list/fun-pangrams/
+     * @see https://pangrampangram.com/blogs/journal/best-pangrams-a-tool-for-every-graphic-designers
      */
     private const PANGRAMS = [
         'Two driven jocks help fax my big quiz.',
