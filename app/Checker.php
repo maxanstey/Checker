@@ -16,7 +16,7 @@ class Checker
      */
     public function isPalindrome(string $word): bool
     {
-        return true;
+        return $word === strrev($word);
     }
 
     /**
