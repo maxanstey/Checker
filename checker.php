@@ -28,13 +28,13 @@ $command->addArgument(
     'input-type',
     null,
     InputArgument::OPTIONAL,
-    'The type of input you will be providing (' . implode('|', InputOptions::all()) . ').',
+    'The type of input you will be providing ('.implode('|', InputOptions::all()).').',
     'string'
 )->addOption(
     'mode',
     null,
     InputOption::VALUE_OPTIONAL,
-    'The type of check you would like to perform (' . implode('|', ModeOptions::all()) . ').',
+    'The type of check you would like to perform ('.implode('|', ModeOptions::all()).').',
     'all'
 );
 
@@ -46,34 +46,32 @@ $compareStrings = static function (
 ): array {
     $messages = [];
 
-    if ($mode === ModeOptions::PALINDROME || $mode === ModeOptions::ALL) {
+    if (ModeOptions::PALINDROME === $mode || ModeOptions::ALL === $mode) {
         $messages[] = sprintf(
             'Is "%s" a palindrome: %s.',
             $stringToCheck,
-            $checker->isPalindrome($stringToCheck) === true ? 'yes' : 'no'
+            true === $checker->isPalindrome($stringToCheck) ? 'yes' : 'no'
         );
     }
 
-    if ($mode === ModeOptions::ANAGRAM || $mode === ModeOptions::ALL) {
-        if ($stringToCompare === null) {
-            throw new Exception(
-                'The comparison argument is required for anagram checks (run the command with --help for more info).'
-            );
+    if (ModeOptions::ANAGRAM === $mode || ModeOptions::ALL === $mode) {
+        if (null === $stringToCompare) {
+            throw new Exception('The comparison argument is required for anagram checks (run the command with --help for more info).');
         }
 
         $messages[] = sprintf(
             'Is "%s" an anagram of "%s": %s.',
             $stringToCheck,
             $stringToCompare,
-            $checker->isAnagram($stringToCheck, $stringToCompare) === true ? 'yes' : 'no'
+            true === $checker->isAnagram($stringToCheck, $stringToCompare) ? 'yes' : 'no'
         );
     }
 
-    if ($mode === ModeOptions::PANGRAM || $mode === ModeOptions::ALL) {
+    if (ModeOptions::PANGRAM === $mode || ModeOptions::ALL === $mode) {
         $messages[] = sprintf(
             'Is "%s" a pangram: %s.',
             $stringToCheck,
-            $checker->isPangram($stringToCheck) === true ? 'yes' : 'no'
+            true === $checker->isPangram($stringToCheck) ? 'yes' : 'no'
         );
     }
 
@@ -84,7 +82,7 @@ $command->setCode(
     static function (InputInterface $input, OutputInterface $output) use ($compareStrings): void {
         $mode = $input->getOption('mode');
 
-        if (array_search($mode, ModeOptions::all(), true) === false) {
+        if (false === array_search($mode, ModeOptions::all(), true)) {
             $output->writeln(
                 sprintf(
                     'The mode "%s" is invalid (run the command with --help to see available choices).',
@@ -99,22 +97,17 @@ $command->setCode(
         $stringToCompare = $input->getArgument('comparison');
         $checker = new Checker();
 
-        if ($input->getOption('input-type') === InputOptions::FILE) {
+        if (InputOptions::FILE === $input->getOption('input-type')) {
             $contents = @file_get_contents($inputValue);
 
-            if ($contents === false) {
-                throw new Exception(
-                    sprintf(
-                        'The file "%s" provided is invalid.',
-                        $inputValue
-                    )
-                );
+            if (false === $contents) {
+                throw new Exception(sprintf('The file "%s" provided is invalid.', $inputValue));
             }
 
             $messages = [];
 
             foreach (explode("\n", $contents) as $string) {
-                if ($string === '') {
+                if ('' === $string) {
                     continue;
                 }
 

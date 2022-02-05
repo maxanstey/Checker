@@ -28,4 +28,3 @@ abstract class Enum
         return in_array($enum, self::all());
     }
 }
-
