@@ -16,7 +16,7 @@ class Checker
      */
     public function isPalindrome(string $word): bool
     {
-        return $word === strrev($word);
+        return $this->formatStringForChecking($word) === strrev($this->formatStringForChecking($word));
     }
 
     /**
@@ -26,8 +26,8 @@ class Checker
      */
     public function isAnagram(string $word, string $comparison): bool
     {
-        $lettersFromWord = str_split($word);
-        $lettersFromComparison = str_split($comparison);
+        $lettersFromWord = str_split($this->formatStringForChecking($word));
+        $lettersFromComparison = str_split($this->formatStringForChecking($comparison));
 
         foreach ($lettersFromWord as $index => $letter) {
             $comparisonLetterIndex = array_search($letter, $lettersFromComparison, true);
@@ -51,15 +51,30 @@ class Checker
      */
     public function isPangram(string $phrase): bool
     {
-        $capitalisedAndUniquePhraseLetters = array_map('strtoupper', array_unique(str_split($phrase)));
+        $capitalisedAndUniquePhraseLetters = array_map(
+            'strtoupper',
+            array_unique(str_split($this->formatStringForChecking($phrase)))
+        );
 
-        $alphasNotPresentInString = array_filter(
+        $alphasNotPresentInPhrase = array_filter(
             range('A', 'Z'),
             static function (string $letter) use ($capitalisedAndUniquePhraseLetters): bool {
                 return false === array_search($letter, $capitalisedAndUniquePhraseLetters, true);
             }
         );
 
-        return 0 === count($alphasNotPresentInString);
+        return 0 === count($alphasNotPresentInPhrase);
+    }
+
+    /**
+     * Takes a string and returns it without non-alphanumeric characters
+     * and in uppercase.
+     *
+     * @param string $string
+     * @return string
+     */
+    private function formatStringForChecking(string $string): string
+    {
+        return strtoupper(preg_replace('/[^A-Za-z0-9]/', '', $string));
     }
 }
