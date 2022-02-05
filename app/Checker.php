@@ -51,6 +51,15 @@ class Checker
      */
     public function isPangram(string $phrase): bool
     {
-        return true;
+        $capitalisedAndUniquePhraseLetters = array_map('strtoupper', array_unique(str_split($phrase)));
+
+        $alphasNotPresentInString = array_filter(
+            range('A', 'Z'),
+            static function (string $letter) use ($capitalisedAndUniquePhraseLetters): bool {
+                return false === array_search($letter, $capitalisedAndUniquePhraseLetters, true);
+            }
+        );
+
+        return 0 === count($alphasNotPresentInString);
     }
 }
