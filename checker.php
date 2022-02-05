@@ -5,8 +5,8 @@ declare(strict_types=1);
 require __DIR__.'/vendor/autoload.php';
 
 use App\Checker;
-use App\Commands\Checker\Enums\InputOptions;
-use App\Commands\Checker\Enums\ModeOptions;
+use App\Commands\Checker\Enums\InputOption as InputOptionEnum;
+use App\Commands\Checker\Enums\ModeOption;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,13 +28,13 @@ $command->addArgument(
     'input-type',
     null,
     InputArgument::OPTIONAL,
-    'The type of input you will be providing ('.implode('|', InputOptions::all()).').',
+    'The type of input you will be providing ('.implode('|', InputOptionEnum::all()).').',
     'string'
 )->addOption(
     'mode',
     null,
     InputOption::VALUE_OPTIONAL,
-    'The type of check you would like to perform ('.implode('|', ModeOptions::all()).').',
+    'The type of check you would like to perform ('.implode('|', ModeOption::all()).').',
     'all'
 );
 
@@ -46,7 +46,7 @@ $compareStrings = static function (
 ): array {
     $messages = [];
 
-    if (ModeOptions::PALINDROME === $mode || ModeOptions::ALL === $mode) {
+    if (ModeOption::PALINDROME === $mode || ModeOption::ALL === $mode) {
         $messages[] = sprintf(
             'Is "%s" a palindrome: %s.',
             $stringToCheck,
@@ -54,7 +54,7 @@ $compareStrings = static function (
         );
     }
 
-    if (ModeOptions::ANAGRAM === $mode || ModeOptions::ALL === $mode) {
+    if (ModeOption::ANAGRAM === $mode || ModeOption::ALL === $mode) {
         if (null === $stringToCompare) {
             throw new Exception('The comparison argument is required for anagram checks (run the command with --help for more info).');
         }
@@ -67,7 +67,7 @@ $compareStrings = static function (
         );
     }
 
-    if (ModeOptions::PANGRAM === $mode || ModeOptions::ALL === $mode) {
+    if (ModeOption::PANGRAM === $mode || ModeOption::ALL === $mode) {
         $messages[] = sprintf(
             'Is "%s" a pangram: %s.',
             $stringToCheck,
@@ -82,7 +82,7 @@ $command->setCode(
     static function (InputInterface $input, OutputInterface $output) use ($compareStrings): void {
         $mode = $input->getOption('mode');
 
-        if (false === array_search($mode, ModeOptions::all(), true)) {
+        if (false === array_search($mode, ModeOption::all(), true)) {
             throw new Exception(
                 sprintf(
                     'The mode "%s" is invalid (run the command with --help to see available choices).',
@@ -95,7 +95,7 @@ $command->setCode(
         $stringToCompare = $input->getArgument('comparison');
         $checker = new Checker();
 
-        if (InputOptions::FILE === $input->getOption('input-type')) {
+        if (InputOptionEnum::FILE === $input->getOption('input-type')) {
             $contents = @file_get_contents($inputValue);
 
             if (false === $contents) {

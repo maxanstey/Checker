@@ -4,7 +4,7 @@ namespace App\Commands\Checker\Enums;
 
 use App\Enums\Enum;
 
-class ModeOptions extends Enum
+class ModeOption extends Enum
 {
     public const PALINDROME = 'palindrome';
     public const ANAGRAM = 'anagram';
