@@ -32,14 +32,14 @@ $checkStrings = static function (
         $output->writeln(
             sprintf(
                 '"%s" is a palindrome.',
-                $trimmedStringToCheck
+                $stringToCheck
             )
         );
     } else {
         $output->writeln(
             sprintf(
                 '"%s" is not a palindrome.',
-                $trimmedStringToCheck
+                $stringToCheck
             )
         );
     }
@@ -47,8 +47,16 @@ $checkStrings = static function (
     $stringToCompare = $input->getArgument('comparison');
     $trimmedStringToCompare = str_replace(' ', '', $stringToCompare);
 
+    if (false === ctype_alnum($trimmedStringToCompare)) {
+        $output->writeln(
+            'The string passed for comparison must contain only alphanumeric characters and/or spaces.'
+        );
+
+        exit(Command::FAILURE);
+    }
+
     // TODO: add comparison argument
-    if (true === $checker->isAnagram($stringToCheck, $trimmedStringToCompare)) {
+    if (true === $checker->isAnagram($stringToCheck, $stringToCompare)) {
         $output->writeln(
             sprintf(
                 '"%s" is an anagram of "%s".',
@@ -66,7 +74,7 @@ $checkStrings = static function (
         );
     }
 
-    if (true === $checker->isPangram($trimmedStringToCheck)) {
+    if (true === $checker->isPangram($stringToCheck)) {
         $output->writeln(
             sprintf(
                 '"%s" is a pangram.',
