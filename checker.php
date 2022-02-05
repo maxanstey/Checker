@@ -55,7 +55,6 @@ $checkStrings = static function (
         exit(Command::FAILURE);
     }
 
-    // TODO: add comparison argument
     if (true === $checker->isAnagram($stringToCheck, $stringToCompare)) {
         $output->writeln(
             sprintf(
