@@ -69,9 +69,6 @@ class Checker
     /**
      * Takes a string and returns it without non-alphanumeric characters
      * and in uppercase.
-     *
-     * @param string $string
-     * @return string
      */
     private function formatStringForChecking(string $string): string
     {

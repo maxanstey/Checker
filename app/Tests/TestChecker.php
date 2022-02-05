@@ -12,7 +12,7 @@ class TestChecker extends KernelTestCase
      * formatted as an array of arrays for readability
      * however that would take longer than I could justify.
      *
-     * @link http://www.english-for-students.com/Complete-List-of-Anagrams.html
+     * @see http://www.english-for-students.com/Complete-List-of-Anagrams.html
      */
     private const ANAGRAMS = [
         'abed',
@@ -158,7 +158,7 @@ class TestChecker extends KernelTestCase
     ];
 
     /**
-     * @link https://www2.cs.arizona.edu/icon/oddsends/palinsen.htm
+     * @see https://www2.cs.arizona.edu/icon/oddsends/palinsen.htm
      */
     private const PALINDROMES = [
         'Sore was I ere I saw Eros.',
@@ -509,7 +509,7 @@ class TestChecker extends KernelTestCase
     ];
 
     /**
-     * @link https://www.rd.com/list/fun-pangrams/
+     * @see https://www.rd.com/list/fun-pangrams/
      */
     private const PANGRAMS = [
         'Two driven jocks help fax my big quiz.',
@@ -561,11 +561,11 @@ class TestChecker extends KernelTestCase
     public function testAnagramChecker(): void
     {
         foreach (self::ANAGRAMS as $index => $anagram) {
-            if ($index % 3 !== 0) {
+            if (0 !== $index % 3) {
                 continue;
             }
 
-            if (isset(self::ANAGRAMS[$index + 2]) === false) {
+            if (false === isset(self::ANAGRAMS[$index + 2])) {
                 continue;
             }
 
@@ -579,7 +579,7 @@ class TestChecker extends KernelTestCase
         }
 
         foreach (self::PALINDROMES as $index => $palindrome) {
-            if (isset(self::PALINDROMES[$index + 1]) === false) {
+            if (false === isset(self::PALINDROMES[$index + 1])) {
                 continue;
             }
 
