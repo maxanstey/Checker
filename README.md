@@ -10,7 +10,7 @@ Simply clone the repository and run composer install.
 You can run the below commands to test it out:
 
 ```
-php checker --help
+php checker.php --help
 
 php checker.php testtest --mode=palindrome
 php checker.php testtset --mode=palindrome
