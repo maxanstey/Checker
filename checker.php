@@ -83,14 +83,12 @@ $command->setCode(
         $mode = $input->getOption('mode');
 
         if (false === array_search($mode, ModeOptions::all(), true)) {
-            $output->writeln(
+            throw new Exception(
                 sprintf(
                     'The mode "%s" is invalid (run the command with --help to see available choices).',
                     $mode
                 )
             );
-
-            exit(Command::INVALID);
         }
 
         $inputValue = $input->getArgument('input');
