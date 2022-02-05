@@ -82,7 +82,7 @@ $command->setCode(
     static function (InputInterface $input, OutputInterface $output) use ($compareStrings): void {
         $mode = $input->getOption('mode');
 
-        if (false === array_search($mode, ModeOption::all(), true)) {
+        if (false === ModeOption::isValid($mode)) {
             throw new Exception(sprintf('The mode "%s" is invalid (run the command with --help to see available choices).', $mode));
         }
 
