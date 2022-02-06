@@ -29,20 +29,10 @@ class Checker
         $lettersFromWord = str_split($this->formatStringForChecking($word));
         $lettersFromComparison = str_split($this->formatStringForChecking($comparison));
 
-        foreach ($lettersFromWord as $index => $letter) {
-            $comparisonLetterIndex = array_search($letter, $lettersFromComparison, true);
+        sort($lettersFromWord);
+        sort($lettersFromComparison);
 
-            if (false === $comparisonLetterIndex) {
-                continue;
-            }
-
-            unset(
-                $lettersFromWord[$index],
-                $lettersFromComparison[$comparisonLetterIndex]
-            );
-        }
-
-        return 0 === count($lettersFromWord) && 0 === count($lettersFromComparison);
+        return implode('', $lettersFromWord) === implode('', $lettersFromComparison);
     }
 
     /**
@@ -51,19 +41,14 @@ class Checker
      */
     public function isPangram(string $phrase): bool
     {
-        $capitalisedAndUniquePhraseLetters = array_map(
-            'strtoupper',
-            array_unique(str_split($this->formatStringForChecking($phrase)))
-        );
+        $capitalisedAndUniquePhraseLetters = array_unique(str_split($this->formatStringForChecking($phrase)));
 
-        $alphasNotPresentInPhrase = array_filter(
-            range('A', 'Z'),
-            static function (string $letter) use ($capitalisedAndUniquePhraseLetters): bool {
-                return false === array_search($letter, $capitalisedAndUniquePhraseLetters, true);
-            }
-        );
+        sort($capitalisedAndUniquePhraseLetters);
 
-        return 0 === count($alphasNotPresentInPhrase);
+        return str_contains(
+            implode('', $capitalisedAndUniquePhraseLetters),
+            implode('', range('A', 'Z'))
+        );
     }
 
     /**
