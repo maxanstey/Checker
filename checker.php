@@ -29,13 +29,13 @@ $command->addArgument(
     null,
     InputArgument::OPTIONAL,
     'The type of input you will be providing ('.implode('|', InputOptionEnum::all()).').',
-    'string'
+    InputOptionEnum::STRING
 )->addOption(
     'mode',
     null,
     InputOption::VALUE_OPTIONAL,
     'The type of check you would like to perform ('.implode('|', ModeOption::all()).').',
-    'all'
+    ModeOption::ALL
 );
 
 $compareStrings = static function (
